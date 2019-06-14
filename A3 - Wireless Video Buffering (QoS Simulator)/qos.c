@@ -1,6 +1,6 @@
 /* ------------------------------------------------------------------------- 
  *
- * Name              : qos.c  (Quality of Service, queue calculator, version 1)
+ * Name              : qos.c  (Quality of Service, queue calculator)
  * Authors           : Luke Iremadze
  * Language          : ANSI C
  * Latest Revision   : Nov 9, 2018

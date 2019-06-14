@@ -1,0 +1,29 @@
+Assignment 3: Wireless Video Buffering (40 marks)
+Due: Friday, November 9, 2018 (4:00pm)
+Learning Objectives
+The purpose of this assignment is to learn about routers, buffer management, wireless networks, and video streaming traffic.
+
+Background
+In the summer of 2018, the FIFA World Cup in Russia was a global event that brought the world together to appreciate "the beautiful game", also known as soccer, football, or "footy" depending on your ancestry. This classic tournament, held every four years, highlights the impact of sport on our culture, and brings many great moments of ecstasy and despair.
+
+The Internet has also played a role in popularizing the tourney, and maximizing its global reach (see this measurement study of World Cup 1998 in France, for example). While the stadium seating for in-person viewing is limited and expensive, the magic of Internet video streaming makes the game available for millions of people around the world. They can watch the games on their personal devices, either live or on-demand, and do so whether at home, at work, at play, or on the go.
+
+In this assignment, you will explore the dynamics of Internet video streaming traffic, and its impacts on network performance. The hypothetical scenario is your part-time job at SkinFlint Networks as their system/network administrator. It is the day of the World Cup final, and your boss knows that many of the employees who actually came to work today will spend most of their time watching the game, doing so using their wireless laptops. Your boss is worried about the impacts of the video streaming traffic on the Quality of Service (QoS) for work-related Internet traffic (or perhaps the impact of work-related traffic on the QoS for the big game!). For this reason, your boss has generously offered use of the boardroom for watching the game, so that only one video stream is needed.
+
+To be honest, your boss is quite the miser, and has made minimal investment in the Internet infrastructure at the company. Specifically, there is a 100 Mbps (Megabits per second) link for incoming Internet traffic, and only an 11 Mbps IEEE 802.11b WiFi Access Point (AP) for distributing traffic internally to the employees. Furthermore, the AP has only B=100 buffers available to store incoming IP packets that are waiting for transmission over the WiFi.
+
+You are definitely worried about the QoS on your network during the game. Fortunately, you were prescient enough to collect a Wireshark packet trace of the semi-final game last week, when you were watching at home. You will use this trace of IP packet timestamps and sizes (in bytes) to learn about video streaming traffic, and what it might do to your company's network.
+
+Your Task
+Your task is to write a program in C or C++ that can estimate the QoS for incoming video streaming traffic on your network. The two QoS metrics of interest are the average queueing delay for packets in the AP buffer, and the packet loss percentage at the wireless AP. There is a simple tradeoff between these two metrics. That is, with a tiny buffer, there will be minimal queueing delay, but there might be really high packet loss. Conversely, with a huge buffer, there will be minimal packet loss, but the packet queueing delays might be really large. Your goal is to find the "sweet spot" for the buffer size that provides a good tradeoff between loss and delay.
+
+Technical Requirements
+In essence, this assignment is a discrete-event network simulation problem, but you should be able to model the system dynamics approximately using even simpler approaches, such as a time-driven simulation, a fluid flow model, or some differential equations. Think of a loop that models the arrival and/or departure of each packet, and using this loop to track the current occupancy of the AP buffer. Packets arrive at certain times, based on the trace file, and depart at certain times, based on the wireless link transmission rate. You may assume that the default AP buffer size can hold B=100 packets (one per buffer, regardless of the packet size), and that the queue is managed in a First-In-First-Out fashion. Please ignore all other WiFi details, such as MAC-layer ACKs and retransmissions. You may also assume that only one video stream is required, since all employees can watch on the big screen in the boardroom.
+
+Specifically, you will use your program to answer a number of "what if" questions about the network QoS, such as these:
+
+For the 11 Mbps WLAN, what would the QoS be if the AP buffer size was B packets? (Vary B over some reasonable range of values, show a graph or table of these results, and suggest a suitable value of B that provides a good tradeoff.)
+For B=100 packets, what would the QoS be if the WiFi capacity was only 6 Mbps instead of 11 Mbps?
+For B=100 packets, what would the QoS be if the WiFi capacity was upgraded to 54 Mbps (IEEE 802.11g)?
+For B=100 packets, what would the QoS be if the WiFi capacity was only 30 Mbps instead of 54 Mbps?
+Your program should report a statistical summary that shows the number of incoming packets, the number of delivered packets, the number of lost packets, the packet loss percentage, and the average queueing delay for (delivered) packets. Use a tabular format for reporting these results (for B=100 packets), with one row for each of the four network configurations indicated above.
